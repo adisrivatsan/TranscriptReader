@@ -1,0 +1,9 @@
+people:
+  - name: Sarah Klein
+    role: CFO
+    domains: [finance, cost, budget]
+    aliases: [Sarah, SK]
+  - name: Dev Patel
+    role: Product Manager
+    domains: [product, roadmap]
+    aliases: [Dev]
