@@ -1,5 +1,5 @@
 import json
-import tempfile
+import pytest
 import yaml
 from pathlib import Path
 
@@ -34,7 +34,6 @@ def test_init_vault_creates_empty_json_stores(tmp_path):
 
 
 def test_init_vault_refuses_existing_vault(tmp_path):
-    import pytest
     init_vault(tmp_path)
     with pytest.raises(FileExistsError, match="already contains config.yaml"):
         init_vault(tmp_path)

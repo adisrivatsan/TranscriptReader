@@ -1,5 +1,4 @@
 import json
-import sys
 from datetime import date
 from importlib import resources
 from pathlib import Path
@@ -135,6 +134,12 @@ def run_scan(
     review_flags = extracted.get("review_flags", [])
     alias_flags = extracted.get("alias_flags", [])
 
+    for af in alias_flags:
+        if af.get("needs_review"):
+            variants = ", ".join(af.get("variants", []))
+            resolved = af.get("resolved_to", "?")
+            review_flags.append(f"alias: resolved '{variants}' → '{resolved}' — verify in roster.yaml")
+
     if skipped_facts or skipped_hyps or skipped_mtgs or review_flags:
         out_path = write_review(
             vault_path, today, source_name,
@@ -143,12 +148,6 @@ def run_scan(
         review_note = str(out_path.relative_to(vault_path))
     else:
         review_note = None
-
-    for af in alias_flags:
-        if af.get("needs_review"):
-            variants = ", ".join(af.get("variants", []))
-            resolved = af.get("resolved_to", "?")
-            print(f"WARNING: resolved '{variants}' → '{resolved}' — verify in roster.yaml", file=sys.stderr)
 
     total_skipped = len(skipped_facts) + len(skipped_hyps) + len(skipped_mtgs)
     print(

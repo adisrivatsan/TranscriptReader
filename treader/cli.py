@@ -6,14 +6,6 @@ from pathlib import Path
 def cmd_init(args) -> None:
     from treader.vault import init_vault
     vault = Path(args.vault)
-    if (vault / "config.yaml").exists():
-        print(
-            f"Error: {vault} already contains config.yaml — refusing to overwrite "
-            f"an existing vault. Delete the directory first to re-init.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
     project_name = input("Project name: ").strip() or "My Project"
     print("\nAdd stakeholders (leave name blank to finish).\n")
     people = []

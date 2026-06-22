@@ -64,7 +64,9 @@ _PREFIX_MAP = {
 
 
 def append_item(vault_path: Path, store_name: str, item: dict, today: str = None) -> dict:
-    prefix = _PREFIX_MAP[store_name]
+    prefix = _PREFIX_MAP.get(store_name)
+    if prefix is None:
+        raise ValueError(f"Unknown store '{store_name}'. Valid stores: {list(_PREFIX_MAP)}")
     date_str = today or date.today().isoformat()
     path = vault_path / store_name
     store = json.loads(path.read_text())
